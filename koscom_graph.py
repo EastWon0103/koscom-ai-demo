@@ -2,6 +2,7 @@ from langgraph.graph import StateGraph, START
 from State import State
 from openai_chatbot import chatbot
 from sql_agent import sql_agent
+from langgraph.checkpoint.memory import MemorySaver
 
 
 #https://wikidocs.net/261598 -> 분기처리 하는 거 확인
@@ -16,7 +17,8 @@ def get_graph():
     graph_builder.add_node("sql_agent", sql_agent)
 
 
-    graph = graph_builder.compile()
+    memory = MemorySaver()
+    graph = graph_builder.compile(checkpointer=memory)
 
     return graph
 
